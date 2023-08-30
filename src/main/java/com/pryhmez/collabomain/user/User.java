@@ -32,6 +32,7 @@ public class User {
 
     @Email
     @NonNull
+    @Column(name = "email")
     private String email;
 
     @Column(name = "first_name")
@@ -53,6 +54,7 @@ public class User {
     private Set<UserEnums.UserRoles> roles = new HashSet<>();
 
     @Column(name = "reg_date")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date regDate;
 
 
