@@ -12,6 +12,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +23,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -37,35 +41,29 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginRequest userLogin) throws IllegalAccessException {
+    public ResponseEntity<?> login(@RequestBody AuthDTOs.LoginRequest userLogin) throws IllegalAccessException {
         Authentication authentication =
                 authenticationManager
                         .authenticate(new UsernamePasswordAuthenticationToken(
                                 userLogin.username(),
                                 userLogin.password()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        AuthUser userDetails = (AuthUser) authentication.getPrincipal();
+
 
         log.info("Token requested for user :{}", authentication.getAuthorities());
-//        Field[] fields = authentication.getPrincipal().getClass().getDeclaredFields();
-//        for (Field field : fields) {
-//            field.setAccessible(true);
-//            Object value = field.get(authentication.getPrincipal());
-//            log.info(field.getName() + " = " + value);
-//        }
-        Arrays.stream(authentication.getPrincipal().getClass().getDeclaredFields())
-                .peek(field -> field.setAccessible(true))
-                .forEach(field -> {
-                    try {
-                        Object value = field.get(authentication.getPrincipal());
-//                        log.info(field.getName() + " = " + value);
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    }
-                });
         String token = authService.generateToken(authentication);
-        return token;
+
+        AuthDTOs.Response response = new AuthDTOs.Response();
+        response.setMessage("User logged in successfully");
+        response.setUser(userDetails.getUser());
+        response.setToken(token);
+
+        return ResponseEntity.ok(response);
     }
 
-//    @PreAuthorize("hasRole('ROLE_USER')")
+
     @PostMapping("/createuser")
     public ResponseEntity<?> createUser(@RequestBody @Valid AuthDTOs.UserDto userDto, BindingResult bindingResult) {
 
@@ -80,7 +78,22 @@ public class AuthController {
             return ResponseEntity.badRequest().body(errors);
         }
 
+        //create user
         User user = authService.createUser(userDto);
-        return ResponseEntity.ok(user);
+
+        //authenticate user
+        Authentication authentication =
+                authenticationManager
+                        .authenticate(new UsernamePasswordAuthenticationToken(
+                                userDto.getUsername(),
+                                userDto.getPassword()));
+        String token = authService.generateToken(authentication);
+
+        AuthDTOs.Response response = new AuthDTOs.Response();
+        response.setMessage("User registered successfully");
+        response.setUser(user);
+        response.setToken(token);
+
+        return ResponseEntity.ok(response);
     }
 }

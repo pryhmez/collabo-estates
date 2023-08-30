@@ -23,8 +23,8 @@ import java.util.Set;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long userId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String userId;
 
     @Column(name = "user_name")
     @NonNull

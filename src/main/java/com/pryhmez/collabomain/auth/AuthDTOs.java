@@ -1,6 +1,7 @@
 package com.pryhmez.collabomain.auth;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pryhmez.collabomain.user.User;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NonNull;
@@ -20,6 +21,15 @@ public class AuthDTOs {
         private String email;
         @NotBlank(message = "password cannot be empty")
         private String password;
+    }
+
+    public record LoginRequest(String username, String password) {
+    }
+    @Data
+    public static class Response {
+        private String message;
+        private String token;
+        private Object user;
     }
 
     @Data

@@ -10,13 +10,17 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-public class AuthUser implements UserDetails {
+public class AuthUser extends User implements UserDetails {
 
 //    @Autowired
     private final User user;
 
     public AuthUser(User user) {
         this.user = user;
+    }
+
+    public User getUser() {
+        return user;
     }
 
     @Override
