@@ -1,4 +1,7 @@
 package com.pryhmez.collabomain.properties;
 
-public interface PropertyRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface PropertyRepository extends JpaRepository<Property, Long> {
+
 }
