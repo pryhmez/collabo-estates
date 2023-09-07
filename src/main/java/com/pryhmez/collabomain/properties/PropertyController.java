@@ -1,9 +1,6 @@
 package com.pryhmez.collabomain.properties;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/property")
@@ -16,6 +13,11 @@ public class PropertyController {
 
     @GetMapping("/getall")
     public void getAllProperties() {
+
+    }
+
+    @DeleteMapping("/delete")
+    public void deleteProperty() {
 
     }
 }
