@@ -20,4 +20,9 @@ public class PropertyController {
     public void deleteProperty() {
 
     }
+
+    @PatchMapping("/update")
+    public void updateProperty() {
+
+    }
 }
