@@ -1,14 +1,25 @@
 package com.pryhmez.collabomain.properties;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/property")
 public class PropertyController {
+    private final PropertyRepository propertyRepository;
+
+    public PropertyController(PropertyRepository propertyRepository) {
+        this.propertyRepository = propertyRepository;
+    }
 
     @PostMapping("/create")
-    public void createProperty () {
+    public ResponseEntity<?> createProperty (@RequestBody Property property) {
 
+        Property newProperty = propertyRepository.save(property);
+
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(newProperty);
     }
 
     @GetMapping("/getall")
