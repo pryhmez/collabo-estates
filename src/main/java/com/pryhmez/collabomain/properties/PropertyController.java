@@ -13,13 +13,15 @@ public class PropertyController {
         this.propertyRepository = propertyRepository;
     }
 
+
     @PostMapping("/create")
     public ResponseEntity<?> createProperty (@RequestBody Property property) {
 
         Property newProperty = propertyRepository.save(property);
 
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(newProperty);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(new PropertyDTO.Response("property added successfully", newProperty));
     }
 
     @GetMapping("/getall")
