@@ -1,6 +1,7 @@
 package com.pryhmez.collabomain.user;
 
 import com.pryhmez.collabomain.auth.AuthController;
+import com.pryhmez.collabomain.auth.AuthDTOs;
 import com.pryhmez.collabomain.auth.AuthUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,17 +22,21 @@ import java.security.Principal;
 @RequestMapping("/api/user")
 public class UserController {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
+    private final UserService userService;
+
+    @Autowired
+    public UserController (UserService userService) {
+        this.userService = userService;
+    }
+
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('SCOPE_ROLE_ADMIN')")
-    public ResponseEntity<?> getUser(Principal principal) {
+    @PreAuthorize("hasAnyAuthority('SCOPE_ROLE_USER')")
+    public ResponseEntity<?> getUser() {
 
+        User user = userService.getUser();
 
-        log.info(principal.getName().toString());
-
-        return ResponseEntity.ok("userDetails");
+        return ResponseEntity.ok(user);
     }
 }

@@ -32,13 +32,13 @@ public class AuthDTOs {
         private Object user;
     }
 
-    @Data
-    public static class PropertyDto {
-        private Long propertyId;
-        private String address;
-        private String description;
-        // Other fields and getters/setters
-    }
+//    @Data
+//    public static class PropertyDto {
+//        private Long propertyId;
+//        private String address;
+//        private String description;
+//        // Other fields and getters/setters
+//    }
 
 
 
