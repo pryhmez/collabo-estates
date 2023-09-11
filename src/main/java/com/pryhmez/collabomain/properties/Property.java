@@ -18,7 +18,9 @@ public class Property {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer propertyId;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(
+//            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
     @JoinColumn(name = "creator_id", referencedColumnName = "userId")
     @NonNull
     private User creator;

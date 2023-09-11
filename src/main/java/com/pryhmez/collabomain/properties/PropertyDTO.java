@@ -20,6 +20,12 @@ public class PropertyDTO {
         private Object property;
     }
 
+//    @Data
+//    public static class GetAll {
+//        private String message;
+//        private
+//    }
+
     @Data
     public static class AddPropertyDto {
         @NotBlank(message = "Please add a description")

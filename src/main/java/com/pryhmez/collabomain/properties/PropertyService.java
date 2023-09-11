@@ -6,9 +6,13 @@ import com.pryhmez.collabomain.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class PropertyService {
@@ -39,5 +43,15 @@ public class PropertyService {
 
 
         return propertyRepository.save(newProperty);
+    }
+
+    public Page<Property> getAllProperties(Pageable pageable) {
+        return propertyRepository.findAll(pageable);
+    }
+
+    public Page<Property> getPropertiesByUser(Pageable pageable) {
+        User user = userService.getUser();
+
+        return propertyRepository.findPropertiesByUser(user, pageable);
     }
 }
