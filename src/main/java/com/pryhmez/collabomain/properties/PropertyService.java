@@ -25,7 +25,7 @@ public class PropertyService {
         User user = userService.getUser();
 
         Property newProperty = new Property().builder()
-                .creatorId(user.getUserId())
+                .creator(user)
                 .propertyType(property.getPropertyType())
                 .city(property.getCity())
                 .price(property.getPrice())

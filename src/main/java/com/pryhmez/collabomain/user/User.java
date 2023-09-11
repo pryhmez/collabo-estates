@@ -2,13 +2,12 @@ package com.pryhmez.collabomain.user;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pryhmez.collabomain.properties.Property;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 
 @Data
@@ -52,6 +51,10 @@ public class User {
     @Enumerated(EnumType.STRING)
 //    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     private Set<UserEnums.UserRoles> roles = new HashSet<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Property> properties = new ArrayList<>();
 
     @Column(name = "reg_date")
     @Temporal(TemporalType.TIMESTAMP)
