@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -46,24 +47,18 @@ public class PropertyController {
         return ResponseEntity.ok(new PropertyDTO.Response("propeties retrieved successfully", propertyPage));
     }
 
-    @GetMapping("/allbyuser/{username}")
+    @GetMapping("/all/{username}")
     public ResponseEntity<?> getPropertiesByUser(
-            @PathVariable String username,
-            Pageable pageable
+            @PageableDefault(size = 10, page = 0) Pageable pageable,
+            @PathVariable String username
     ) {
-        String state;
-        if(username == null) {
-            state = "nothing";
-        } else {
-            state = username;
-        }
-//        User user = userService.getUserById(userId); // Fetch the user based on userId
+
 //        if (user == null) {
 //            return ResponseEntity.notFound().build();
 //        }
 
-//        Page<Property> properties = propertyService.getPropertiesByUser(user, pageable);
-        return ResponseEntity.ok(state);
+        Page<Property> propertyPage = propertyService.getAllProperties(pageable, username);
+        return ResponseEntity.ok(new PropertyDTO.Response("propeties retrieved successfully", propertyPage));
     }
 
     @DeleteMapping("/delete")

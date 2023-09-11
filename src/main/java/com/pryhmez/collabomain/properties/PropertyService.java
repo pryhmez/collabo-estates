@@ -49,8 +49,9 @@ public class PropertyService {
         return propertyRepository.findAll(pageable);
     }
 
-    public Page<Property> getPropertiesByUser(Pageable pageable) {
-        User user = userService.getUser();
+    public Page<Property> getAllProperties(Pageable pageable, String username) {
+
+        User user = userService.getUser(username);
 
         return propertyRepository.findPropertiesByUser(user, pageable);
     }

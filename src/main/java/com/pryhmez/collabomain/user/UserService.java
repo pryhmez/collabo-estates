@@ -26,4 +26,16 @@ public class UserService {
             return null; // Or throw a custom exception
         }
     }
+
+    public User getUser(String username) {
+
+        Optional<User> userOptional = userRepository.findByUsername(username);
+
+        if (userOptional.isPresent()) {
+            return userOptional.get(); // User found
+        } else {
+            // Handle the case where the user is not found (e.g., return null or throw an exception)
+            return null; // Or throw a custom exception
+        }
+    }
 }
