@@ -17,7 +17,7 @@ public class Property {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer propertyId;
+    private Long propertyId;
     @ManyToOne(
 //            fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)

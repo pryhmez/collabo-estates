@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface PropertyRepository extends JpaRepository<Property, Integer> {
+public interface PropertyRepository extends JpaRepository<Property, Long> {
 
     // Custom query to retrieve properties by user
     @Query("SELECT p FROM Property p WHERE p.creator = :user")
