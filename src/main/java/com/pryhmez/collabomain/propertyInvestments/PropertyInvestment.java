@@ -27,7 +27,7 @@ public class PropertyInvestment {
     @ManyToOne(
 //            fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
-    @JoinColumn(name = "property_id", referencedColumnName = "userId")
+    @JoinColumn(name = "property_id", referencedColumnName = "propertyId")
     private Property property;
 
     @ManyToOne(
@@ -43,7 +43,7 @@ public class PropertyInvestment {
     @ManyToOne(
 //            fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
-    @JoinColumn(name = "property_value_id", referencedColumnName = "userId")
+    @JoinColumn(name = "property_value_id", referencedColumnName = "propertyValueId")
     private PropertyValue snapshotPropertyValue;
 
     private Date time;

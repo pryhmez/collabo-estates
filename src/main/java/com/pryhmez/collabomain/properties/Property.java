@@ -1,11 +1,17 @@
 package com.pryhmez.collabomain.properties;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pryhmez.collabomain.propertyInvestments.PropertyInvestment;
+import com.pryhmez.collabomain.propertyValues.PropertyValue;
 import com.pryhmez.collabomain.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Builder
@@ -25,7 +31,7 @@ public class Property {
     @NonNull
     private User creator;
     private String description;
-    private Long price;
+    private BigDecimal price;
     private String address;
     private String city;
     private String state;
@@ -35,6 +41,14 @@ public class Property {
     private Date dateCreated;
     private Date lastUpdated;
     private String tags;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<PropertyInvestment> propertyInvestments = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<PropertyValue> propertyValues = new ArrayList<>();
 
     @PreUpdate
     public void setLastUpdated() {

@@ -3,6 +3,8 @@ package com.pryhmez.collabomain.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pryhmez.collabomain.properties.Property;
+import com.pryhmez.collabomain.propertyInvestments.PropertyInvestment;
+import com.pryhmez.collabomain.propertyValues.PropertyValue;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
@@ -52,13 +54,17 @@ public class User {
 //    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     private Set<UserEnums.UserRoles> roles = new HashSet<>();
 
+    @Column(name = "reg_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date regDate;
+
     @JsonIgnore
     @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Property> properties = new ArrayList<>();
 
-    @Column(name = "reg_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date regDate;
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<PropertyInvestment> propertyInvestments = new ArrayList<>();
 
 
     @PrePersist

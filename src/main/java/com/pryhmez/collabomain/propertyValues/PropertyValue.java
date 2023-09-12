@@ -17,14 +17,14 @@ public class PropertyValue {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long propertyValueId;
 
     @ManyToOne(
 //            fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
-    @JoinColumn(name = "property_id", referencedColumnName = "userId")
+    @JoinColumn(name = "property_id", referencedColumnName = "propertyId")
     @NonNull
-    private Property Property;
+    private Property property;
 
     private BigDecimal propertyValue;
     private Date date;

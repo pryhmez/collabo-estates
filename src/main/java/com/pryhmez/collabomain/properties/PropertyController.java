@@ -1,6 +1,7 @@
 package com.pryhmez.collabomain.properties;
 
-import com.pryhmez.collabomain.user.User;
+import com.pryhmez.collabomain.propertyValues.PropertyValue;
+import com.pryhmez.collabomain.propertyValues.PropertyValueServices;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -9,30 +10,36 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.BindingResult;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/property")
 public class PropertyController {
     private final PropertyRepository propertyRepository;
     private final PropertyService propertyService;
+    private final PropertyValueServices propertyValueServices;
 
-    public PropertyController(PropertyRepository propertyRepository, PropertyService propertyService) {
+    public PropertyController(PropertyRepository propertyRepository,
+                              PropertyService propertyService,
+                              PropertyValueServices propertyValueServices) {
         this.propertyRepository = propertyRepository;
         this.propertyService = propertyService;
+        this.propertyValueServices = propertyValueServices;
     }
 
 
     @PostMapping("/create")
+    @Transactional
     public ResponseEntity<?> createProperty (
             @RequestBody @Valid
             PropertyDTO.AddPropertyDto property) {
 
         Property createdProperty = propertyService.createProperty(property);
+
+        PropertyValue newValue = propertyValueServices.addValue(createdProperty);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)

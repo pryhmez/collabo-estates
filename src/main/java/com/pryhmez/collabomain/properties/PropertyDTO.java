@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 
@@ -31,7 +32,7 @@ public class PropertyDTO {
         @NotBlank(message = "Please add a description")
         private String description;
         @NotNull(message = "No price inputted")
-        private Long price;
+        private BigDecimal price;
         @NotBlank(message = "add address")
         private String address;
         @NotBlank(message = "select city")
