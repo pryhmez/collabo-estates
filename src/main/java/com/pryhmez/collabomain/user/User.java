@@ -25,15 +25,16 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(unique = true)
     private String userId;
 
-    @Column(name = "user_name")
+    @Column(name = "user_name", unique = true)
     @NonNull
     private String username;
 
     @Email
     @NonNull
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
     @Column(name = "first_name")
@@ -63,7 +64,7 @@ public class User {
     private List<Property> properties = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "investor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<PropertyInvestment> propertyInvestments = new ArrayList<>();
 
 

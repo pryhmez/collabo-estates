@@ -1,5 +1,6 @@
 package com.pryhmez.collabomain.exceptions;
 
+import com.pryhmez.collabomain.properties.PropertyExceptions;
 import com.pryhmez.collabomain.user.UserExceptions;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -37,6 +38,13 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 
     @ExceptionHandler(UserExceptions.UserNotFoundException.class)
     public final ResponseEntity<Object> handleUserNotFoundException(UserExceptions.UserNotFoundException ex, WebRequest request ) {
+        ExceptionResponse exceptionResponse =
+                new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(PropertyExceptions.PropertyNotFoundException.class)
+    public final ResponseEntity<Object> handlePropertyNotFoundException(PropertyExceptions.PropertyNotFoundException ex, WebRequest request ) {
         ExceptionResponse exceptionResponse =
                 new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
         return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);

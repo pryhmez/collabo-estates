@@ -22,7 +22,7 @@ public class PropertyInvestment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long InvestmentId;
 
     @ManyToOne(
 //            fetch = FetchType.LAZY,
@@ -34,11 +34,11 @@ public class PropertyInvestment {
 //            fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     @JoinColumn(name = "investor_id", referencedColumnName = "userId")
-    private User user;
+    private User investor;
 
     private BigDecimal amount;
 
-    private Integer percentage;
+    private BigDecimal percentage;
 
     @ManyToOne(
 //            fetch = FetchType.LAZY,
