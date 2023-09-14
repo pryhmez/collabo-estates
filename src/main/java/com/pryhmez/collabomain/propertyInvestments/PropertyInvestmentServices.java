@@ -76,4 +76,10 @@ public class PropertyInvestmentServices {
 
         return propertyInvestmentRepository.findAllByInvestor(user, pageable);
     }
+
+    public Page<PropertyInvestment> getAllByProperty (Long propertyId, Pageable pageable) {
+
+        return propertyInvestmentRepository.findByPropertyPropertyId(propertyId, pageable);
+
+    }
 }

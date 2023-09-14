@@ -54,4 +54,17 @@ public class PropertyInvestmentController {
                 .body(new PropertyInvestmentDTOs.Response(
                         "Investments retrieved successfully", investments));
     }
+
+    @GetMapping("/getallbyproperty/{propertyId}")
+    public ResponseEntity<?> getInvestmentsByProperty (
+            @PathVariable Long propertyId,
+            @PageableDefault(size = 10, page = 0) Pageable pageable
+    ) {
+
+        Page<PropertyInvestment> investments = propertyInvestmentServices.getAllByProperty(propertyId, pageable);
+
+        return ResponseEntity.status(HttpStatus.FOUND)
+                .body(new PropertyInvestmentDTOs.Response(
+                        "Investments retrieved successfully for property with id " + propertyId, investments));
+    }
 }
