@@ -40,6 +40,8 @@ public class PropertyInvestment {
 
     private BigDecimal percentage;
 
+    private Long sharesVolume;
+
     @ManyToOne(
 //            fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)

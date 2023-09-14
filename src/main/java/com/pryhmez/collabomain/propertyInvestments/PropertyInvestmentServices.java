@@ -10,11 +10,14 @@ import com.pryhmez.collabomain.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
 
 @Service
 public class PropertyInvestmentServices {
@@ -49,17 +52,28 @@ public class PropertyInvestmentServices {
                 investmentDto.getAmount()
                         .divide(propertyValue.getPropertyValue(), 4, RoundingMode.HALF_UP))
                 .multiply(new BigDecimal("100"));
+
+        BigDecimal shares = percentage.multiply(new BigDecimal("10000")).setScale(0, RoundingMode.HALF_DOWN);
         log.info(percentage.toString());
 
         PropertyInvestment investment = new PropertyInvestment().builder()
                 .amount(investmentDto.getAmount())
                 .investor(investor)
+                .sharesVolume(shares.longValue())
                 .property(property)
                 .percentage(percentage)
                 .snapshotPropertyValue(propertyValue)
                         .build();
+
         propertyValueServices.addValue(property, propertyValue.getPropertyValue().add(investmentDto.getAmount()));
 
         return propertyInvestmentRepository.save(investment);
+    }
+
+    public Page<PropertyInvestment> getInvestmentsByUser (Pageable pageable) {
+
+        User user = userService.getUser();
+
+        return propertyInvestmentRepository.findAllByInvestor(user, pageable);
     }
 }
