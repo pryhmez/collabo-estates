@@ -42,6 +42,9 @@ public class PropertyInvestment {
 
     private Long sharesVolume;
 
+    @Enumerated(EnumType.STRING)
+    private PropertyInvestmentEnums.InvestmentStatus investmentStatus;
+
     @ManyToOne(
 //            fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
