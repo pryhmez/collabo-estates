@@ -67,4 +67,11 @@ public class PropertyInvestmentController {
                 .body(new PropertyInvestmentDTOs.Response(
                         "Investments retrieved successfully for property with id " + propertyId, investments));
     }
+
+    @PutMapping("/setStatus/{status}")
+    public void setInvestmentStatus (
+            @PathVariable String status
+    ) {
+
+    }
 }
