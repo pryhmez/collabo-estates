@@ -73,14 +73,16 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, HandlerMappingIntrospector introspector) throws Exception {
-        MvcRequestMatcher.Builder mvcMatcherBuilder = new MvcRequestMatcher.Builder(introspector).servletPath("/api");
+
         return http
                 .csrf(csrf -> {
                     csrf.disable();
+//                    csrf.ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**"));
                 })
                 .cors(cors -> cors.disable())
                 .authorizeHttpRequests(auth -> {
 //                    auth.requestMatchers("/api/user/**").hasAnyAuthority();
+//                    auth.requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll();
                     auth.requestMatchers("/error/**").permitAll();
                     auth.requestMatchers("/api/auth/**").permitAll();
                     auth.anyRequest().authenticated();
