@@ -20,14 +20,14 @@ class PropertyInvestmentControllerTest {
     }
 
     @Test
-    void getInvestmentsByUser() {
+    void itShouldGetInvestmentsByUser() {
     }
 
     @Test
-    void getInvestmentsByProperty() {
+    void itShouldGetInvestmentsByProperty() {
     }
 
     @Test
-    void setInvestmentStatus() {
+    void itShouldetInvestmentStatus() {
     }
 }
